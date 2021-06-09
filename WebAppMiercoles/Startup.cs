@@ -26,8 +26,9 @@ namespace WebAppMiercoles
         {
             //Agregar el acceso a datos como SERVICIO
             services.AddDbContext<AppDbContext>();
+
             
-            
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddControllersWithViews();
         }
 
