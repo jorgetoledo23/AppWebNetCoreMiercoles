@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAppMiercoles.Models;
@@ -10,9 +12,11 @@ namespace WebAppMiercoles.Controllers
     public class CategoriaController : Controller
     {
         private readonly AppDbContext _context;
-        public CategoriaController(AppDbContext context)
+        private readonly IWebHostEnvironment _hostEnviroment;
+        public CategoriaController(AppDbContext context, IWebHostEnvironment hostEnviroment)
         {
             _context = context;
+            _hostEnviroment = hostEnviroment;
         }
 
         public IActionResult ListaCategorias()
@@ -21,21 +25,7 @@ namespace WebAppMiercoles.Controllers
             return View(listadoCategorias);
         }
 
-        [HttpPost]
-        public IActionResult GuardarCategorias() {
-            return View();
-        }
-
-        public IActionResult EditarCategoria() {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult EditarCategoria(Categoria C)
-        {
-            return View();
-        }
-
+        [HttpGet]
         public IActionResult CrearCategoria() {
             return View();
         }
@@ -43,14 +33,33 @@ namespace WebAppMiercoles.Controllers
         [HttpPost]
         public async Task<IActionResult> CrearCategoria(Categoria C)
         {
+
             if (ModelState.IsValid)
             {
                 var existe = _context.tblCategorias.Where(c => c.Nombre.Equals(C.Nombre)).FirstOrDefault();
                 if (existe == null)
                 {
+                    if (C.ImagenFile == null)
+                    {
+                        C.Imagen = "no-disponible.png";
+                    }
+                    else
+                    {
+                        string wwwRootPath = _hostEnviroment.WebRootPath;
+                        string fileName = Path.GetFileNameWithoutExtension(C.ImagenFile.FileName);
+                        string extension = Path.GetExtension(C.ImagenFile.FileName);
+                        C.Imagen = fileName + DateTime.Now.ToString("ddMMyyyyHHmmss") + extension;
+                        //drama16062021151230.jpg
+                        string path = Path.Combine(wwwRootPath + "/images/" + C.Imagen);
+                        using (var fileStream = new FileStream(path, FileMode.Create))
+                        {
+                            await C.ImagenFile.CopyToAsync(fileStream);
+                        }
+                    }
                     _context.Add(C);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("ListaCategorias");
+                    //return RedirectToAction("ListaCategorias", "Home");
+                    return RedirectToAction(nameof(ListaCategorias));
                 }
                 else {
                     ModelState.AddModelError("", "La Categoria Ingresada ya Existe!");
@@ -59,6 +68,49 @@ namespace WebAppMiercoles.Controllers
             return View(C);
         }
 
+        [HttpGet]
+        public IActionResult EditCategoria(int CategoriaId) {
+            var C = _context.tblCategorias.Where(c => c.CategoriaId.Equals(CategoriaId)).FirstOrDefault();
+            return View(C);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditCategoria(Categoria C) {
+
+            if (ModelState.IsValid)
+            {
+                var CatEditada = _context.tblCategorias.Where(c => c.CategoriaId.Equals(C.CategoriaId)).FirstOrDefault();
+                
+                if (C.ImagenFile == null)
+                {
+                    CatEditada.Imagen = "no-disponible.png";
+                }
+                else
+                {
+                    string wwwRootPath = _hostEnviroment.WebRootPath;
+                    string fileName = Path.GetFileNameWithoutExtension(C.ImagenFile.FileName);
+                    string extension = Path.GetExtension(C.ImagenFile.FileName);
+                    CatEditada.Imagen = fileName + DateTime.Now.ToString("ddMMyyyyHHmmss") + extension;
+                    //drama16062021151230.jpg
+                    string path = Path.Combine(wwwRootPath + "/images/" + CatEditada.Imagen);
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        await C.ImagenFile.CopyToAsync(fileStream);
+                    }
+                }
+
+                CatEditada.Nombre = C.Nombre;
+                CatEditada.Descripcion = C.Descripcion;
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(ListaCategorias));
+            }
+            else {
+                return View(C);
+            }
+
+        }
+
+        //TODO: Eliminar O Desactivar Categoria (1 Punto para la Proxima Evaluacion (3))
 
 
     }
