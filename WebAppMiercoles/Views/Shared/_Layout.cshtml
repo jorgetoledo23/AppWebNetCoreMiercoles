@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@inject AppDbContext _context 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -22,11 +23,23 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Hola</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Categorias
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @foreach (var C in _context.tblCategorias.ToList()) {
+                                    
+                                    <a asp-controller="Cliente" asp-action="Home" asp-route-CategoriaId="@C.CategoriaId" class="dropdown-item">@C.Nombre</a>
+
+                                }
+                            </div>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Categoria" asp-action="ListaCategorias">Adm Categorias</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Producto" asp-action="ListaProductos">Adm Productos</a>
                         </li>
                     </ul>
                 </div>

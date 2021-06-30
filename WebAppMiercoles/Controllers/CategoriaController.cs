@@ -21,6 +21,11 @@ namespace WebAppMiercoles.Controllers
 
         public IActionResult ListaCategorias()
         {
+            /*
+            var PVM = new ProductoViewModel();
+            PVM.listaCategorias = _context.tblCategorias.ToList();
+            PVM.listaProducto = _context.tblProductos.ToList(); */
+
             var listadoCategorias = _context.tblCategorias.ToList();
             return View(listadoCategorias);
         }
@@ -110,7 +115,7 @@ namespace WebAppMiercoles.Controllers
 
         }
 
-        //TODO: Eliminar O Desactivar Categoria (1 Punto para la Proxima Evaluacion (3))
+        //TODO: Eliminar o Desactivar Categoria (1 Punto para la Proxima Evaluacion (3))
 
 
     }
