@@ -1,7 +1,7 @@
-﻿@model ICollection<Categoria>
+﻿@model IndexViewModel
 
-<div class="row justify-content-between float-left">
-    @foreach (var C in Model)
+<div class="row justify-content-between" style="min-height:400px;">
+    @foreach (var C in Model.ListaCategorias)
     {
     <div class="card col-md-3 mr-3 ml-3 mb-3" style="width: auto;">
         <a asp-controller="Cliente" asp-action="Home" asp-route-CategoriaId="@C.CategoriaId">
@@ -14,3 +14,30 @@
     </div>
     }
 </div>
+
+<nav class="row justify-content-center" aria-label="Page navigation example">
+    <div class="justify-content-center">
+        <ul class="pagination">
+            @if (Model.Pagina != 0 && Model.Pagina != 1)
+            {
+                <li class="page-item"><a class="page-link" asp-action="Index" asp-route-Page="@TempData["PreviousPage"]">Anterior</a></li>
+            }
+            else
+            {
+                <li class="page-item disabled"><a class="page-link">Anterior</a></li>
+            }
+            @for (int i = 1; i <= Model.CantidadPaginas; i++)
+            {
+                <li class="page-item"><a class="page-link" asp-action="Index" asp-route-Page="@i">@i</a></li>
+            }
+            @if (Model.Pagina != Model.CantidadPaginas)
+            {
+                <li class="page-item"><a class="page-link" asp-action="Index" asp-route-Page="@TempData["NextPage"]">Siguiente</a></li>
+            }
+            else
+            {
+                <li class="page-item disabled"><a class="page-link">Siguiente</a></li>
+            }
+        </ul>
+    </div>
+</nav>

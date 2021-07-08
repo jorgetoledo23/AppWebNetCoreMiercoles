@@ -28,8 +28,9 @@
                                 Categorias
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                @foreach (var C in _context.tblCategorias.ToList()) {
-                                    
+                                @foreach (var C in _context.tblCategorias.ToList())
+                                {
+
                                     <a asp-controller="Cliente" asp-action="Home" asp-route-CategoriaId="@C.CategoriaId" class="dropdown-item">@C.Nombre</a>
 
                                 }
@@ -42,7 +43,27 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Producto" asp-action="ListaProductos">Adm Productos</a>
                         </li>
                     </ul>
+
                 </div>
+                <!-- Right elements -->
+                <div class="d-flex align-items-center">
+                    <!-- Icon -->
+                    <a class="text-reset me-3 mr-3" 
+                       asp-controller="Carro" asp-action="Index">
+                        <i class="fas fa-shopping-cart fa-2x"></i>
+                        <span class="badge badge-light">1</span>
+                    </a>
+
+                    <a class="text-reset me-3 mr-3" href="#">
+                        <i class="fas fa-credit-card fa-2x"></i>
+                    </a>
+
+
+
+
+
+                </div>
+                <!-- Right elements -->
             </div>
         </nav>
     </header>

@@ -21,5 +21,7 @@ namespace WebAppMiercoles.Models
 
         public DbSet<Categoria> tblCategorias { get; set; }
         public DbSet<Producto> tblProductos { get; set; }
+
+        public DbSet<ItemCarro> tblItemsCarro { get; set; }
     }
 }

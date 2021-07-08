@@ -27,9 +27,15 @@ namespace WebAppMiercoles
             //Agregar el acceso a datos como SERVICIO
             services.AddDbContext<AppDbContext>();
 
+            services.AddScoped(carro => CarroCompra.GetCarroCompra(carro));
+
             
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddControllersWithViews();
+            services.AddSession();
+            services.AddMemoryCache();
+            services.AddHttpContextAccessor();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,12 +51,25 @@ namespace WebAppMiercoles
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            //Redireccion a ErrorPage en errores 404
+            app.Use(async (context, next) =>
+            {
+                await next();
+                if (context.Response.StatusCode == 404)
+                {
+                    context.Request.Path = "/Home/ErrorPage";
+                    await next();
+                }
+            });
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

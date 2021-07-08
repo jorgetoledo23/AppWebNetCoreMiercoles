@@ -64,6 +64,7 @@ namespace WebAppMiercoles.Controllers
                     _context.Add(C);
                     await _context.SaveChangesAsync();
                     //return RedirectToAction("ListaCategorias", "Home");
+                    TempData["Mensaje"] = "Categoria agregada exitosamente!";
                     return RedirectToAction(nameof(ListaCategorias));
                 }
                 else {
@@ -76,7 +77,15 @@ namespace WebAppMiercoles.Controllers
         [HttpGet]
         public IActionResult EditCategoria(int CategoriaId) {
             var C = _context.tblCategorias.Where(c => c.CategoriaId.Equals(CategoriaId)).FirstOrDefault();
-            return View(C);
+            if (C != null)
+            {
+                return View(C);
+            }
+            else
+            {
+                return RedirectToAction("ErrorPage","Home");
+            }
+            
         }
 
         [HttpPost]
@@ -107,6 +116,7 @@ namespace WebAppMiercoles.Controllers
                 CatEditada.Nombre = C.Nombre;
                 CatEditada.Descripcion = C.Descripcion;
                 await _context.SaveChangesAsync();
+                TempData["Mensaje"] = "Categoria editada con exito!";
                 return RedirectToAction(nameof(ListaCategorias));
             }
             else {
@@ -116,7 +126,27 @@ namespace WebAppMiercoles.Controllers
         }
 
         //TODO: Eliminar o Desactivar Categoria (1 Punto para la Proxima Evaluacion (3))
+        [HttpGet]
+        public IActionResult deleteCategoria(int CategoriaId)
+        {
+            var C = _context.tblCategorias.Where(c => c.CategoriaId.Equals(CategoriaId)).FirstOrDefault();
+            return View(C);
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> deleteCategoria(Categoria C) {
+            var catEliminada = _context.tblCategorias.Where(c => c.CategoriaId.Equals(C.CategoriaId)).FirstOrDefault();
+            if (catEliminada != null)
+            {
+                _context.Entry(catEliminada).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
+                await _context.SaveChangesAsync();
+                TempData["Mensaje"] = "Categoria eliminada con exito!";
+                return RedirectToAction(nameof(ListaCategorias));
+            }
+            else {
+                return NotFound();
+            }
+        }
 
     }
 }

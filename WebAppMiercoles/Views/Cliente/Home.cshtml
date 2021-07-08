@@ -10,7 +10,7 @@
                 <h6 class="card-subtitle mb-2 text-muted">@C.Descripcion</h6>
             </div>
             <div class="row float-left justify-content-center mb-3">
-                <a asp-action="EditCategoria" asp-route-CategoriaId="@C.CategoriaId" class="btn btn-outline-warning">Agregar al Carro</a>
+                <a asp-controller="Carro" asp-action="Add" asp-route-ProductoId="@C.ProductoId" class="btn btn-outline-warning">Agregar al Carro</a>
             </div>
         </div>
     }
