@@ -11,7 +11,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
             <div class="container">
                 <a class="navbar-brand" asp-controller="Home" asp-action="Index">WebAppMiercoles</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -48,7 +48,7 @@
                 <!-- Right elements -->
                 <div class="d-flex align-items-center">
                     <!-- Icon -->
-                    <a class="text-reset me-3 mr-3" 
+                    <a class="text-reset me-3 mr-3"
                        asp-controller="Carro" asp-action="Index">
                         <i class="fas fa-shopping-cart fa-2x"></i>
                         <span class="badge badge-light">1</span>
@@ -57,15 +57,15 @@
                     <a class="text-reset me-3 mr-3" href="#">
                         <i class="fas fa-credit-card fa-2x"></i>
                     </a>
-
-
-
-
-
                 </div>
                 <!-- Right elements -->
             </div>
         </nav>
+        <div class="bg-dark mb-5" style="height:20px; font-size:small;">
+            <div class="container" style="height:20px;">
+                <partial name="_loginPartial" />
+            </div>
+        </div>
     </header>
     <div class="container mb-5">
         <main role="main" class="pb-3">

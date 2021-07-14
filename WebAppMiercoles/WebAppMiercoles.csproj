@@ -7,9 +7,15 @@
   <ItemGroup>
     <Compile Remove="Migrations\20210630181205_producto.cs" />
     <Compile Remove="Migrations\20210630181205_producto.Designer.cs" />
+    <Compile Remove="Migrations\20210714175556_Indentity.cs" />
+    <Compile Remove="Migrations\20210714175556_Indentity.Designer.cs" />
+    <Compile Remove="Migrations\20210714180455_Indentity.cs" />
+    <Compile Remove="Migrations\20210714180455_Indentity.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.16" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.16" />

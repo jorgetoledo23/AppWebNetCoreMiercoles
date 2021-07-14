@@ -1,0 +1,75 @@
+﻿@model WebAppMiercoles.Models.RegistroViewModel
+
+@{
+    ViewData["Title"] = "Registro";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card card-cascade narrower view view-cascade gradient-card-header blue-gradient narrower py-2 mb-3 d-flex justify-content-between align-items-center">
+    <h2 href="" class="white-text mx-3">Registrarse</h2>
+    <a asp-action="" class="link-dark"><i class="fas fa-plus-circle fa-lg mr-2"></i>Iniciar Sesion</a>
+</div>
+
+<hr />
+
+<div class="row">
+    <form class="col-md-12" asp-action="Registro">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Rut" class="control-label"></label>
+                    <input asp-for="Rut" class="form-control" />
+                    <span asp-validation-for="Rut" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Nombres" class="control-label"></label>
+                    <input asp-for="Nombres" class="form-control" />
+                    <span asp-validation-for="Nombres" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Apellidos" class="control-label"></label>
+                    <input asp-for="Apellidos" class="form-control" />
+                    <span asp-validation-for="Apellidos" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Pass" class="control-label"></label>
+                    <input asp-for="Pass" class="form-control" />
+                    <span asp-validation-for="Pass" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Direccion" class="control-label"></label>
+                    <input asp-for="Direccion" class="form-control" />
+                    <span asp-validation-for="Direccion" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Ciudad" class="control-label"></label>
+                    <input asp-for="Ciudad" class="form-control" />
+                    <span asp-validation-for="Ciudad" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CodigoPostal" class="control-label"></label>
+                    <input asp-for="CodigoPostal" class="form-control" />
+                    <span asp-validation-for="CodigoPostal" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Telefono" class="control-label"></label>
+                    <input asp-for="Telefono" class="form-control" />
+                    <span asp-validation-for="Telefono" class="text-danger"></span>
+                </div>
+            </div>
+            
+                <input type="submit" value="Registrarse" class="btn btn-outline-info btn-block" />
+            
+        </div>
+    </form>
+</div>
+

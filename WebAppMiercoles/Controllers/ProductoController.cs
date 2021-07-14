@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -10,6 +11,7 @@ using WebAppMiercoles.Models;
 
 namespace WebAppMiercoles.Controllers
 {
+    [Authorize(Policy = "PolicyAdmin")]
     public class ProductoController : Controller
     {
         private readonly AppDbContext _context;
@@ -19,6 +21,7 @@ namespace WebAppMiercoles.Controllers
             _context = context;
             _hostEnviroment = hostEnviroment; ;
         }
+
         public IActionResult addProducto()
         {
 

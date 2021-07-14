@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,6 +27,26 @@ namespace WebAppMiercoles
         {
             //Agregar el acceso a datos como SERVICIO
             services.AddDbContext<AppDbContext>();
+
+            services.AddIdentity<Cliente, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
+                options.SignIn.RequireConfirmedAccount = false;
+            })
+                .AddEntityFrameworkStores<AppDbContext>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("PolicyCliente", pol => pol.RequireClaim("Cliente"));
+                options.AddPolicy("PolicyAdmin", pol => pol.RequireClaim("Admin"));
+            });
+
+            //services.AddAuthorization("PolicyCliente", pol => pol.
 
             services.AddScoped(carro => CarroCompra.GetCarroCompra(carro));
 
@@ -66,7 +87,7 @@ namespace WebAppMiercoles
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseSession();

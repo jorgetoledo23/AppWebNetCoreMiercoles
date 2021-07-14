@@ -17,6 +17,8 @@ namespace WebAppMiercoles.Controllers
             _context = context;
             _carro = carro;
         }
+
+        
         public IActionResult Index()
         {
             CarroCompraViewModel carroCompraViewModel = new CarroCompraViewModel()
@@ -37,6 +39,7 @@ namespace WebAppMiercoles.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+
         public RedirectToActionResult Del(int ProductoId)
         {
             var P = _context.tblProductos.Where(p => p.ProductoId == ProductoId).FirstOrDefault();
