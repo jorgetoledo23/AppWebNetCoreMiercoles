@@ -33,11 +33,14 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="4">
-                    Total: $ @string.Format(new System.Globalization.CultureInfo("es-CL"), "{0:C}",
-                    Model.TotalCarro)
+                <td class="text-right" colspan="4">
+                    <strong>Total: </strong> 
+                </td>
+                <td class="text-left">
+                    $ @string.Format(new System.Globalization.CultureInfo("es-CL"), "{0:C}",
+Model.TotalCarro)
                 </td>
             </tr>
         </tfoot>
     </table>
-    <a class="btn btn-info">Finalizar Compra</a>
+    <a asp-controller="Pedido" asp-action="Index" class="btn btn-info">Ver Resumen</a>

@@ -1,4 +1,7 @@
-﻿@inject AppDbContext _context 
+﻿@inject AppDbContext _context
+@inject SignInManager<Cliente> signInManager
+@inject UserManager<Cliente> userManager
+@inject CarroCompra _carro
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,12 +39,26 @@
                                 }
                             </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Categoria" asp-action="ListaCategorias">Adm Categorias</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Producto" asp-action="ListaProductos">Adm Productos</a>
-                        </li>
+                        @if (signInManager.IsSignedIn(User))
+                        {
+                            var Acceso = User.Claims.Where(x => x.Type == "Admin").FirstOrDefault();
+                            if (Acceso != null)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Categoria" asp-action="ListaCategorias">Adm Categorias</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Producto" asp-action="ListaProductos">Adm Productos</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="MisPedidos">Ver Mis Pedidos</a>
+                                </li>
+                            }
+
+                        }
                     </ul>
 
                 </div>
@@ -51,7 +68,11 @@
                     <a class="text-reset me-3 mr-3"
                        asp-controller="Carro" asp-action="Index">
                         <i class="fas fa-shopping-cart fa-2x"></i>
-                        <span class="badge badge-light">1</span>
+                        @{
+                            _carro.ItemsCarro = _carro.GetItemsCarro();
+                        }
+                    <span class="badge badge-danger">@_carro.ItemsCarro.Count</span>
+
                     </a>
 
                     <a class="text-reset me-3 mr-3" href="#">

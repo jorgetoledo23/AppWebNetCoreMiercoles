@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,13 @@ namespace WebAppMiercoles.Controllers
     {
         private readonly UserManager<Cliente> _userManager;
         private readonly SignInManager<Cliente> _signInManager;
+        private readonly AppDbContext _context;
 
-        public AccountController(UserManager<Cliente> userManager, SignInManager<Cliente> signInManager)
+        public AccountController(AppDbContext context, UserManager<Cliente> userManager, SignInManager<Cliente> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
 
 
@@ -85,6 +88,34 @@ namespace WebAppMiercoles.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
+
+        public async Task<IActionResult> MisPedidos() {
+
+            var Cliente = await _userManager.GetUserAsync(HttpContext.User);
+
+            MisPedidosViewModel Mvm = new MisPedidosViewModel
+            {
+                Cliente = Cliente,
+                ListaPedidos = _context.tblPedidos
+                    .Where(p => p.Cliente.Id == Cliente.Id).ToList()
+            };
+
+            return View(Mvm);
+        }
+
+        public IActionResult DetallePedido(int PedidoId) {
+
+            DetallePedidoViewModel Dvm = new DetallePedidoViewModel {
+                Pedido = _context.tblPedidos.Where(p => p.PedidoId == PedidoId).FirstOrDefault(),
+                ListaDetalle = _context.tblDetallePedido.Where(dt => dt.PedidoId == PedidoId)
+                    .Include(dt => dt.Producto)
+                .ToList()
+            };
+            return View(Dvm);
+            
+        }
+
 
     }
 }
